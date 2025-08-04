@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Private Chat</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    /* --- General Body & Layout --- */
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* --- Main Chat Container (Card) --- */
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      color: #333;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    /* --- Room Controls (Create/Join) --- */
+    .room-controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .room-controls input { flex-grow: 1; }
+
+    /* --- Room Info (Code & User Count) --- */
+    #roomInfo {
+      text-align: center;
+      margin: 0 0 16px 0;
+      padding: 10px;
+      background-color: #f7f7f9;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 44px;
+      box-sizing: border-box;
+    }
+    .room-code-display, .user-count-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .room-code-display .code {
+      font-family: monospace;
+      font-size: 1.2em;
+      font-weight: 600;
+      background: #e9eaf2;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .user-count-display .material-icons { font-size: 20px; color: #555; }
+
+    /* --- Chat Box & Messages --- */
+    #chatBox {
+      border: 1px solid #e0e0e0;
+      height: 300px;
+      overflow-y: auto;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message { max-width: 85%; display: flex; flex-direction: column; }
+    .message-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .message-name { color: #673ab7; font-weight: 600; }
+    .message-time { color: #999; font-size: 0.8em; }
+    .message-text { background: #e9eaf2; padding: 8px 14px; border-radius: 12px; word-wrap: break-word; line-height: 1.4; }
+    
+    .message.is-user { align-self: flex-end; align-items: flex-end; }
+    .message.is-user .message-text { background: #d1f0d3; }
+
+    /* --- Typing Indicator --- */
+    #typingIndicator {
+      height: 20px;
+      font-style: italic;
+      color: #777;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .typing-dot { animation: blink 1.4s infinite both; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    /* --- Inputs & Buttons --- */
+    input[type="text"] { padding: 12px 14px; border: 1px solid #ccc; border-radius: 8px; font-size: 1em; font-family: 'Poppins', sans-serif; transition: border-color 0.2s, box-shadow 0.2s; }
+    input[type="text"]:focus { border-color: #8e44ad; box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.15); outline: none; }
+    input[type="text"]:read-only { background-color: #f5f5f5; cursor: not-allowed; }
+    
+    .message-controls { display: flex; flex-direction: column; gap: 10px; }
+
+    button { padding: 12px 16px; background: linear-gradient(90deg, #8e44ad 0%, #3498db 100%); color: #fff; border: none; border-radius: 8px; font-size: 1em; font-weight: 500; font-family: 'Poppins', sans-serif; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+    button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
+    
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 600px) {
+      body { padding: 10px; align-items: flex-start; }
+      .chat-container { padding: 16px; }
+      .room-controls { flex-direction: column; }
+      #roomInfo { flex-direction: column; gap: 8px; align-items: flex-start; }
+      #chatBox { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <h2>Live Private Chat</h2>
+
+    <div class="room-controls">
+      <button id="createRoomBtn">Create Room</button>
+      <input type="text" id="joinCode" placeholder="Enter Room Code to Join" />
+      <button id="joinRoomBtn">Join Room</button>
+    </div>
+
+    <div id="roomInfo"></div>
+
+    <div id="chatBox"></div>
+    
+    <div id="typingIndicator"></div>
+    <div class="message-controls">
+      <input type="text" id="name" placeholder="Your name" readonly />
+      <input type="text" id="message" placeholder="Type a message..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script type="module">
+    // --- Firebase SDK Imports ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, onChildAdded, onDisconnect, set, remove, off } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+    // --- Firebase Configuration ---
+    // ⚠️ IMPORTANT: Replace this with your own Firebase project configuration.
+      const firebaseConfig = {
+    apiKey: "AIzaSyCBvefflN0iL7_6B9xZMF8v8fm-Z4wSMW8",
+    authDomain: "pipico-4977f.firebaseapp.com",
+    databaseURL: "https://pipico-4977f-default-rtdb.firebaseio.com",
+    projectId: "pipico-4977f",
+    storageBucket: "pipico-4977f.firebasestorage.app",
+    messagingSenderId: "1017200026188",
+    appId: "1:1017200026188:web:2c1956d8adec06622c0ae9"
+  };
+
+    // --- Initialize Firebase ---
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // --- UI Element References ---
+    const createRoomBtn = document.getElementById('createRoomBtn');
+    const joinRoomBtn = document.getElementById('joinRoomBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const roomInfo = document.getElementById('roomInfo');
+    const chatBox = document.getElementById('chatBox');
+    const nameInput = document.getElementById('name');
+    const messageInput = document.getElementById('message');
+    const typingIndicator = document.getElementById('typingIndicator');
+
+    // --- Global State ---
+    let currentRoomCode = null;
+    let messageListener = null;
+    let presenceListener = null;
+    let typingListener = null;
+    let currentUser = null;
+    let typingTimeout = null;
+
+    // --- Authentication ---
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        nameInput.value = currentUser.displayName || currentUser.email;
+      } else {
+        alert("You are not logged in. Please log in to use the chat.");
+        // For a real app, you would redirect:
+        // window.location.href = "login.html";
+      }
+    });
+    
+    // --- Event Listeners ---
+    createRoomBtn.addEventListener('click', createRoom);
+    joinRoomBtn.addEventListener('click', joinRoom);
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
+    messageInput.addEventListener('input', handleTyping);
+
+    // --- Core Chat Functions ---
+    function generateRoomCode() {
+      const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+      return Array.from({ length: 6 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+    }
+    
+    function createRoom() {
+        joinRoomByCode(generateRoomCode());
+    }
+    
+    function joinRoom() {
+        const roomCode = document.getElementById('joinCode').value.trim().toUpperCase();
+        if (roomCode) joinRoomByCode(roomCode);
+        else alert('Please enter a room code.');
+    }
+
+    function joinRoomByCode(roomCode) {
+        if (!currentUser) {
+            alert("Please wait, still authenticating...");
+            return;
+        }
+
+        // --- FIX: Clean up state from the PREVIOUS room before joining a new one ---
+        if (currentRoomCode && currentRoomCode !== roomCode) {
+            // Detach all old listeners to prevent them from running on the old room
+            off(ref(database, `chatRooms/${currentRoomCode}`), 'child_added', messageListener);
+            off(ref(database, `presence/${currentRoomCode}`), 'value', presenceListener);
+            off(ref(database, `typingStatus/${currentRoomCode}`), 'value', typingListener);
+            
+            // Immediately remove user's presence and typing status from the old room
+            remove(ref(database, `presence/${currentRoomCode}/${currentUser.uid}`));
+            remove(ref(database, `typingStatus/${currentRoomCode}/${currentUser.uid}`));
+        }
+        
+        currentRoomCode = roomCode;
+        chatBox.innerHTML = ''; // Clear visual chat
+        messageInput.value = ''; // Clear message input
+        updateRoomInfo(currentRoomCode, 0); // Display new room info
+
+        // --- Setup Presence for the NEW room ---
+        const userPresenceRef = ref(database, `presence/${currentRoomCode}/${currentUser.uid}`);
+        set(userPresenceRef, true); // Mark user as present
+        onDisconnect(userPresenceRef).remove(); // Set to remove presence on disconnect
+        
+        // --- Setup Typing Status for the NEW room ---
+        const userTypingRef = ref(database, `typingStatus/${currentRoomCode}/${currentUser.uid}`);
+        onDisconnect(userTypingRef).remove();
+
+        // --- Attach listeners for the NEW room ---
+        listenForMessages();
+        listenForPresence();
+        listenForTyping();
+    }
+
+    function sendMessage() {
+      if (!currentRoomCode || !currentUser) return;
+      
+      const text = messageInput.value.trim();
+      if (text) {
+        const roomRef = ref(database, `chatRooms/${currentRoomCode}`);
+        push(roomRef, { 
+            uid: currentUser.uid,
+            name: currentUser.displayName || currentUser.email,
+            text: text,
+            timestamp: new Date().toISOString()
+        });
+        messageInput.value = '';
+        
+        // Immediately remove typing indicator on send
+        remove(ref(database, `typingStatus/${currentRoomCode}/${currentUser.uid}`));
+        clearTimeout(typingTimeout);
+      }
+    }
+
+    // --- Listener Setup Functions ---
+    function listenForMessages() {
+        const roomRef = ref(database, `chatRooms/${currentRoomCode}`);
+        messageListener = onChildAdded(roomRef, (snapshot) => displayMessage(snapshot.val()));
+    }
+    
+    function listenForPresence() {
+        const presenceRef = ref(database, `presence/${currentRoomCode}`);
+        presenceListener = onValue(presenceRef, (snapshot) => {
+            const count = snapshot.exists() ? snapshot.size : 0;
+            updateRoomInfo(currentRoomCode, count);
+        });
+    }
+
+    function listenForTyping() {
+        const typingRef = ref(database, `typingStatus/${currentRoomCode}`);
+        typingListener = onValue(typingRef, (snapshot) => {
+            const typingUsers = [];
+            snapshot.forEach(childSnapshot => {
+                if (childSnapshot.key !== currentUser.uid) { // Don't show your own status
+                    typingUsers.push(childSnapshot.val().name);
+                }
+            });
+            updateTypingIndicator(typingUsers);
+        });
+    }
+
+    // --- UI Update & Event Handler Functions ---
+    function updateRoomInfo(code, userCount) {
+        roomInfo.innerHTML = `
+            <div class="room-code-display">
+                <span>Room:</span>
+                <span class="code">${code}</span>
+            </div>
+            <div class="user-count-display">
+                <span class="material-icons">group</span>
+                <span>${userCount}</span>
+            </div>`;
+    }
+
+    function displayMessage(msg) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        if (msg.uid === currentUser.uid) msgDiv.classList.add('is-user');
+
+        const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        msgDiv.innerHTML = `
+            <div class="message-header">
+                <span class="message-name">${escapeHTML(msg.name)}</span>
+                <span class="message-time">${time}</span>
+            </div>
+            <span class="message-text">${escapeHTML(msg.text)}</span>`;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function handleTyping() {
+        if (!currentRoomCode || !currentUser) return;
+        const typingRef = ref(database, `typingStatus/${currentRoomCode}/${currentUser.uid}`);
+        
+        if (messageInput.value.trim().length > 0) {
+            set(typingRef, { name: currentUser.displayName || currentUser.email });
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => remove(typingRef), 1500);
+        } else {
+            remove(typingRef);
+        }
+    }
+
+    function updateTypingIndicator(users) {
+        if (users.length === 0) {
+            typingIndicator.innerHTML = '';
+            return;
+        } 
+        
+        let text;
+        if (users.length === 1) {
+            text = `${escapeHTML(users[0])} is typing`;
+        } else if (users.length === 2) {
+            text = `${escapeHTML(users[0])} and ${escapeHTML(users[1])} are typing`;
+        } else {
+            text = `Several people are typing`;
+        }
+        typingIndicator.innerHTML = `${text}<span class="typing-dot">.</span><span class="typing-dot">.</span><span class="typing-dot">.</span>`;
+    }
+    
+    // --- OPTIMIZATION: More robust HTML escaping ---
+    function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+  </script>
+
+</body>
+</html>

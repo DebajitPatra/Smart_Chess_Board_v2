@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="ragester.css" />
+  <script type="module" src="register.js"></script>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Create Account</h2>
+
+    <!-- Full Name -->
+    <!-- <label for="fullname">Full Name</label>-->
+    <input type="text" id="fullname" placeholder="Your full name" required />
+
+
+    <!-- Phone Number (optional) -->
+    <!--<label for="phone">Phone Number</label>-->
+    <input type="tel" id="phone" placeholder="Optional phone number" />
+
+
+    <!-- Email -->
+    <!--<label for="email">Email</label>-->
+    <input type="email" id="email" placeholder="Enter your email" required />
+
+
+    <!-- Password -->
+    <!-- <label for="password">Password</label>-->
+    <input type="password" id="password" placeholder="Create a password" required />
+
+
+    <!-- Confirm Password -->
+    <!--<label for="confirm-password">Confirm Password</label>-->
+    <input type="password" id="confirm-password" placeholder="Confirm password" required />
+
+ 
+
+
+
+    <!-- Terms Checkbox -->
+    <label>
+      <input type="checkbox" id="terms" required />
+      I agree to the <a href="#">terms & conditions</a>
+    </label>
+
+    <!-- Sign Up Button -->
+    <button onclick="signup()">Sign Up</button>
+
+    <!-- Message Box -->
+    <p id="message"></p>
+        <p>Or login with:</p>
+
+  <div class="social-login" style="display:flex; gap:10px; justify-content:center; margin:20px 0;">
+
+    <button onclick="window.location.href='https://accounts.google.com/ooauth2/v2/auth'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./google.png" alt="Google" style="height:24px;">
+    </button>
+
+    <button onclick="window.location.href='https://appleid.apple.com/auth/authorize'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./apple.png" alt="Apple" style="height:24px;">
+    </button>
+
+    <button onclick="window.location.href='https://github.com/login/oauth/authorize'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./github.png" alt="GitHub" style="height:24px;">
+    </button>
+
+    <button onclick="window.location.href='https://discord.com/oauth2/authorize'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./discord.png" alt="Discord" style="height:24px;">
+    </button>
+
+
+  </div>
+
+
+
+
+</body>
+</html>

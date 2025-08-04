@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Connect - Seamlessly Connect Your IoT Devices</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+ 
+</head>
+<body>
+
+    <!-- Vanta.js Background Animation Container -->
+    <div id="vanta-bg"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Header Navigation -->
+        <header class="py-4 px-4 md:px-8 lg:px-16">
+            <div class="container mx-auto flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <h1 class="text-xl font-bold text-main-heading">IoT Connect</h1>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-sub-heading hover:text-white transition">Devices</a>
+                    <a href="#" class="text-sub-heading hover:text-white transition">Features</a>
+                    <a href="#" class="text-sub-heading hover:text-white transition">Documentation</a>
+                    <a href="#" class="text-sub-heading hover:text-white transition">About</a>
+                </nav>
+
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                 <!--   <a href="#" class="text-sub-heading hover:text-white transition">Log In</a>-->
+                    <a href="login.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">Log In</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="text-center py-20 px-4">
+            <div class="container mx-auto">
+                <!-- Badge -->
+                <div class="inline-block next-gen-badge text-sm font-semibold py-1 px-3 rounded-full mb-4">
+                    ⚡️ Next-Gen IoT Platform
+                </div>
+
+                <!-- Main Headline -->
+                <h1 class="text-4xl md:text-6xl font-extrabold text-main-heading leading-tight">
+                    Connect Your <span class="text-blue-500">IoT Devices</span><br> Seamlessly
+                </h1>
+
+                <!-- Sub-headline -->
+                <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-sub-heading">
+                    Manage ESP32, Raspberry Pi, and other IoT devices from a single, powerful dashboard. Real-time monitoring, secure connections, and infinite possibilities.
+                </p>
+
+                <!-- Call-to-Action Buttons -->
+                <div class="mt-10 flex justify-center items-center space-x-4">
+                    <a href="chat.html" id="get-started-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg">
+                        Get Started &rarr;
+                    </a>
+                    <a href="#" class="bg-card hover:bg-gray-700 text-main-heading font-bold py-3 px-6 rounded-lg border border-card transition-transform transform hover:scale-105">
+                        View Documentation
+                    </a>
+                </div>
+
+
+            </div>
+        </main>
+
+        <!-- Features Section -->
+        <section class="py-20 px-4">
+            <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Feature 1: Lightning Fast -->
+                <div class="bg-card border border-card rounded-xl p-8 text-center hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="flex justify-center items-center mb-4">
+                        <div class="bg-blue-900/50 p-3 rounded-lg border border-blue-700">
+                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-main-heading mb-2">Lightning Fast</h3>
+                    <p class="text-sub-heading">
+                        Real-time data processing with minimal latency for instant device responses.
+                    </p>
+                </div>
+
+                <!-- Feature 2: Secure by Design -->
+                <div class="bg-card border border-card rounded-xl p-8 text-center hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="flex justify-center items-center mb-4">
+                        <div class="bg-blue-900/50 p-3 rounded-lg border border-blue-700">
+                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-main-heading mb-2">Secure by Design</h3>
+                    <p class="text-sub-heading">
+                        End-to-end encryption and advanced security protocols protect your IoT network.
+                    </p>
+                </div>
+
+                <!-- Feature 3: Global Scale -->
+                <div class="bg-card border border-card rounded-xl p-8 text-center hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="flex justify-center items-center mb-4">
+                        <div class="bg-blue-900/50 p-3 rounded-lg border border-blue-700">
+                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.724 7.724a1 1 0 011.414 0l3.536 3.536a1 1 0 010 1.414l-3.536 3.536a1 1 0 01-1.414-1.414L9.414 12l-1.69-1.69a1 1 0 010-1.414zM12 21a9 9 0 100-18 9 9 0 000 18z"></path></svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-main-heading mb-2">Global Scale</h3>
+                    <p class="text-sub-heading">
+                        Deploy and manage devices worldwide with our distributed infrastructure.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 mt-16 border-t border-card">
+            <p class="text-sub-heading">&copy; 2025 IoT Connect. All rights reserved.</p>
+        </footer>
+    </div>
+
+
+
+
+
+
+  
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+   const firebaseConfig = {
+    apiKey: "AIzaSyCBvefflN0iL7_6B9xZMF8v8fm-Z4wSMW8",
+    authDomain: "pipico-4977f.firebaseapp.com",
+    databaseURL: "https://pipico-4977f-default-rtdb.firebaseio.com",
+    projectId: "pipico-4977f",
+    storageBucket: "pipico-4977f.firebasestorage.app",
+    messagingSenderId: "1017200026188",
+    appId: "1:1017200026188:web:2c1956d8adec06622c0ae9"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  // Handle Get Started button
+  const getStartedBtn = document.getElementById("get-started-btn");
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is logged in
+          window.location.href = "chat.html";
+        } else {
+          // User is not logged in
+          window.location.href = "login.html";
+        }
+      });
+    });
+  }
+</script>
+
+
+    
+
+
+
+        
+</body>
+</html>

@@ -1,0 +1,54 @@
+   
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #C9D1D9;
+            /* The background color is now handled by the Vanta.js animation */
+        }
+        #vanta-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        .bg-card {
+            background-color: #161B22;
+        }
+        .border-card {
+            border-color: #30363D;
+        }
+        .text-main-heading {
+            color: #F0F6FC;
+        }
+        .text-sub-heading {
+            color: #8B949E;
+        }
+        .btn-primary {
+            background-color: #238636;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2EA043;
+        }
+        .btn-secondary {
+            background-color: #21262D;
+            border: 1px solid #30363D;
+            color: #C9D1D9;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #30363D;
+            border-color: #8B949E;
+        }
+        .next-gen-badge {
+            background-color: rgba(35, 134, 54, 0.15);
+            color: #389543;
+            border: 1px solid rgba(35, 134, 54, 0.4);
+        }

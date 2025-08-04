@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+ <link rel="stylesheet" href="login.css">
+  <script type="module" src="login.js"></script>
+</head>
+<body>
+  
+
+
+
+  <div class="login-container">
+    
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button onclick="login()">Login</button>
+    <p id="message"></p>
+
+    <button onclick="window.location.href='register.html'">New User</button>
+
+     <p>Or login with:</p>
+
+  <div class="social-login" style="display:flex; gap:10px; justify-content:center; margin:20px 0;">
+
+    <button onclick="window.location.href='https://accounts.google.com/ooauth2/v2/auth'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./google.png" alt="Google" style="height:24px;">
+    </button>
+
+    <button onclick="window.location.href='https://appleid.apple.com/auth/authorize'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./apple.png" alt="Apple" style="height:24px;">
+    </button>
+
+    <button onclick="window.location.href='https://github.com/login/oauth/authorize'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./github.png" alt="GitHub" style="height:24px;">
+    </button>
+
+    <button onclick="window.location.href='https://discord.com/oauth2/authorize'" style="border-radius:50%; width:40px; height:40px; border:none; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
+      <img src="./discord.png" alt="Discord" style="height:24px;">
+    </button>
+
+  </div>
+  
+  </div>
+
+
+
+  <script>
+
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBvefflN0iL7_6B9xZMF8v8fm-Z4wSMW8",
+    authDomain: "pipico-4977f.firebaseapp.com",
+    databaseURL: "https://pipico-4977f-default-rtdb.firebaseio.com",
+    projectId: "pipico-4977f",
+    storageBucket: "pipico-4977f.firebasestorage.app",
+    messagingSenderId: "1017200026188",
+    appId: "1:1017200026188:web:2c1956d8adec06622c0ae9"
+  };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          message.style.color = "green";
+          message.innerText = "Login successful!";
+          console.log("Logged in user:", userCredential.user);
+          // Optionally redirect to home or dashboard:
+          // window.location.href = "home.html";
+        })
+        .catch((error) => {
+          message.style.color = "red";
+          message.innerText = "Error: " + error.message;
+        });
+    };
+  </script>
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+</body>
+</html>
